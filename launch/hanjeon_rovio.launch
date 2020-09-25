@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<launch>
+<!--  <node name="rovio_traj" pkg="tf_to_trajectory" type="tf_to_path.py"/>-->
+<!--  <node name="rgb2gray" pkg="rovio" type="rgb2gray.py"/>-->
+
+  <node pkg="rovio" type="rovio_node" name="rovio" output="screen">
+  <param name="filter_config" value="$(find rovio)/cfg/hanjeon.info"/>
+  <param name="camera0_config" value="$(find rovio)/cfg/hanjeon_rovio.yaml"/>
+<!--  <param name="camera1_config" value="$(find rovio)/cfg/hanjeon_rovio2.yaml"/>-->
+  <remap from="/cam0/image_raw" to="/camera/infra1/image_rect_raw"/>
+  <remap from="/imu0" to="/mavros/imu/data_raw"/>
+  </node>
+</launch>

@@ -146,6 +146,7 @@ class RovioNode{
   ros::Publisher pubMarkers_;          /**<Publisher: Ros line marker, indicating the depth uncertainty of a landmark.*/
   ros::Publisher pubExtrinsics_[mtState::nCam_];
   ros::Publisher pubImuBias_;
+  ros::Publisher pubTrackerImage; //added
 
   // Ros Messages
   geometry_msgs::TransformStamped transformMsg_;
@@ -229,6 +230,7 @@ class RovioNode{
       pubExtrinsics_[camID] = nh_.advertise<geometry_msgs::PoseWithCovarianceStamped>("rovio/extrinsics" + std::to_string(camID), 1 );
     }
     pubImuBias_ = nh_.advertise<sensor_msgs::Imu>("rovio/imu_biases", 1 );
+    pubTrackerImage = nh_.advertise<sensor_msgs::Image>("rovio/trackerimage", 1 ); //added
 
     // Handle coordinate frame naming
     map_frame_ = "/map";
@@ -653,8 +655,18 @@ class RovioNode{
       if(mpFilter_->safe_.t_ > oldSafeTime){ // Publish only if something changed
         for(int i=0;i<mtState::nCam_;i++){
           if(!mpFilter_->safe_.img_[i].empty() && mpImgUpdate_->doFrameVisualisation_){
-            cv::imshow("Tracker" + std::to_string(i), mpFilter_->safe_.img_[i]);
-            cv::waitKey(3);
+
+            cv_bridge::CvImage img_bridge;
+            sensor_msgs::Image img_msg; // >> message to be sent
+
+            std_msgs::Header header; // empty header
+            header.stamp = ros::Time::now(); // time
+            img_bridge = cv_bridge::CvImage(header, sensor_msgs::image_encodings::RGB8, mpFilter_->safe_.img_[i]);
+            img_bridge.toImageMsg(img_msg); // from cv_bridge to sensor_msgs::Image
+            pubTrackerImage.publish(img_msg); // ros::Publisher pub_img = node.advertise<sensor_msgs::Image>("topic", queuesize);
+
+            //cv::imshow("Tracker" + std::to_string(i), mpFilter_->safe_.img_[i]);
+            //cv::waitKey(3);
           }
         }
         if(!mpFilter_->safe_.patchDrawing_.empty() && mpImgUpdate_->visualizePatches_){
