@@ -1,3 +1,27 @@
+# ROVIO modified
++ Edited to visualize ***Tracker*** window in ROS, instead of OpenCV, by changing code in *RovioNode.hpp*
+
+
+<br>
+
+Original README from Below
+
+<br><br><br><br><br><br><br><br><br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # README #
 
 This repository contains the ROVIO (Robust Visual Inertial Odometry) framework. The code is open-source (BSD License). Please remember that it is strongly coupled to on-going research and thus some parts are not fully mature yet. Furthermore, the code will also be subject to changes in the future which could include greater re-factoring of some parts.
