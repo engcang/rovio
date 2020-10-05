@@ -1,5 +1,6 @@
 # ROVIO modified
-+ Edited to visualize ***Tracker*** window in ROS, instead of OpenCV, by changing code in *RovioNode.hpp*
++ Edited to visualize ***Tracker*** window in ROS, instead of OpenCV, by changing code in ***RovioNode.hpp***
++ Installation and Calibration [here](https://github.com/engcang/rovio-application)
 
 
 <br>
